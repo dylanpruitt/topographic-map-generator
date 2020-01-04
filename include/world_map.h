@@ -12,9 +12,11 @@ class world_map
 
         void render ();
     private:
-        int map_size = 30;
+        int map_size = 25;
 
-        int base_chance = 70;
+        int base_chance = 95;
+
+        char height_characters [4] = {' ', char (176), char (177), char (178)};
 
         std::vector <int> height_map;
 

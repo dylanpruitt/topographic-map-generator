@@ -1,6 +1,7 @@
 #include <iostream>
 #include <random>
 #include <time.h>
+#include "textGraphics.h"
 #include "world_map.h"
 
 world_map::world_map (int map_size)
@@ -14,7 +15,7 @@ world_map::~world_map()
 }
 
 void world_map::generate () {
-    //srand (time (NULL));
+    srand (time (NULL));
     create_blank_height_map ();
 
     int MAX_HEIGHT = 9;
@@ -83,8 +84,18 @@ void world_map::render () {
     for (int i = 0; i < map_size; i++) {
         for (int j = 0; j < map_size; j++) {
             int index = i + j * map_size;
-            std::cout << height_map [index];
+
+            if (height_map [index] < 4) {
+                textGraphics::changeTextColor (textGraphics::height_colors::GRAY, textGraphics::height_colors::BLACK);
+            } else if (height_map [index] < 8) {
+                textGraphics::changeTextColor (textGraphics::height_colors::WHITE, textGraphics::height_colors::GRAY);
+            } else {
+                textGraphics::changeTextColor (textGraphics::height_colors::BRIGHT_WHITE, textGraphics::height_colors::WHITE);
+            }
+
+            std::cout << height_characters [height_map [index] % 4];
         }
+        textGraphics::changeTextColor (textGraphics::height_colors::BRIGHT_WHITE, textGraphics::height_colors::BLACK);
         std::cout << "\n";
     }
 }
