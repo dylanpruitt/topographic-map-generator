@@ -17,19 +17,12 @@ void world_map::generate () {
     //srand (time (NULL));
     create_blank_height_map ();
 
-    for (int i = 0; i < map_size; i++) {
-        for (int j = 0; j < map_size; j++) {
-            int height_update_chance = 80 * ((double) get_number_of_surrounding_tiles_at_height(i, j, 0) / 9);
-            int random = rand () % 100 + 1;
+    int MAX_HEIGHT = 9;
 
-            if (random <= height_update_chance) {
-                int index = i + j * map_size;
-                height_map [index] = 1;
-            }
-        }
+    for (int i = 0; i < MAX_HEIGHT; i++) {
+        update_map_at_height (i);
+        smooth_map_at_height (i + 1);
     }
-
-    smooth_map_at_height (1);
 }
 
 void world_map::create_blank_height_map () {
@@ -39,7 +32,17 @@ void world_map::create_blank_height_map () {
 }
 
 void world_map::update_map_at_height (int height) {
+    for (int i = 0; i < map_size; i++) {
+        for (int j = 0; j < map_size; j++) {
+            int height_update_chance = base_chance * ((double) get_number_of_surrounding_tiles_at_height(i, j, height) / 9);
+            int random = rand () % 100 + 1;
+            int index = i + j * map_size;
 
+            if (random <= height_update_chance && height_map [index] == height) {
+                height_map [index] = height + 1;
+            }
+        }
+    }
 }
 
 void world_map::smooth_map_at_height (int height) {

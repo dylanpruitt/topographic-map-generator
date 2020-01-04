@@ -14,6 +14,8 @@ class world_map
     private:
         int map_size = 30;
 
+        int base_chance = 70;
+
         std::vector <int> height_map;
 
         void create_blank_height_map ();
