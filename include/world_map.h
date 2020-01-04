@@ -6,7 +6,7 @@ class world_map
 {
     public:
         world_map (int map_size);
-        virtual ~world_map();
+        virtual ~world_map ();
 
         void generate ();
 
@@ -15,6 +15,14 @@ class world_map
         int map_size = 30;
 
         std::vector <int> height_map;
+
+        void create_blank_height_map ();
+
+        void update_map_at_height (int height);
+
+        void smooth_map_at_height (int height);
+
+        int get_number_of_surrounding_tiles_at_height (int x, int y, int height);
 };
 
 #endif // WORLD_MAP_H
